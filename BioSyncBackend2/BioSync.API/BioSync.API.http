@@ -1,0 +1,6 @@
+@BioSync.API_HostAddress = http://localhost:5001
+
+GET {{BioSync.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
