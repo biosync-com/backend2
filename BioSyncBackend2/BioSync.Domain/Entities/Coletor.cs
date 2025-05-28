@@ -8,6 +8,7 @@ namespace BioSync.Domain.Entities
 {
     public class Coletor
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
 
         public string CPF { get; set; }
