@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "3ZCabv50aabxS2oksqhMLP4V8EMzJhUWY3320aZoAHg=",
+  "Source": "BioSync.API",
+  "BasePath": "_content/BioSync.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
