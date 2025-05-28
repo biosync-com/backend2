@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Domain.Entities
 {
-    public class Usuário
+    public class Usuario
     {
         public string Nome { get; set; }
 
