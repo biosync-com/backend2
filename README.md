@@ -1,4 +1,4 @@
-# backend2
+# BIOSNC - Back-End
 
 A Clean Architecture oferece vantagens significativas ao promover um design de software altamente organizado e sustentável. Seu principal benefício é a separação clara de responsabilidades entre as camadas do sistema, garantindo que as regras de negócio (domínio) permaneçam independentes de frameworks, bancos de dados ou interfaces externas. Isso resulta em:
 
