@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BioSync.Domain\BioSync.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
