@@ -12,12 +12,8 @@ namespace BioSync.Infra.Data.Repositories
 {
     public class UsuarioRepository
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
 
-        public UsuarioRepository()
-        {
-            _context = new ApplicationDbContext();
-        }
         public UsuarioRepository(ApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));

@@ -8,8 +8,15 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Integrations\" />
-    <Folder Include="Mappings\" />
     <Folder Include="Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BioSync.Domain\BioSync.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,5 +21,6 @@ namespace BioSync.Infra.Data.Context
             builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         }
+
     }
 }

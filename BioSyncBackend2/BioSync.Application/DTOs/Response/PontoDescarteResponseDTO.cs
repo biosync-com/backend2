@@ -17,5 +17,10 @@ namespace BioSync.Application.DTOs.Response
             public string Endereco { get; set; }
             public string Material { get; set; }
         }
+
+    public class PontoDescarteUpdateDTO
+        {
+        }
     }
 }
+

@@ -17,8 +17,8 @@ namespace BioSync.Application.DTOs.Response
             public string CPF { get; set; }
             public string Email { get; set; }
             public string Material { get; set; }
-            public DateTime DataCadastro { get; set; } 
-            public bool Ativo { get; set; } 
+            public DateTime DataCadastro { get; set; }
+            public bool Ativo { get; set; }
         }
     }
 }

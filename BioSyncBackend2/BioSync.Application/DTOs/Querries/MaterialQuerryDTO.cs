@@ -23,3 +23,4 @@ namespace BioSync.Application.DTOs.Querries
             Ativo = true;
         }
     }
+}
