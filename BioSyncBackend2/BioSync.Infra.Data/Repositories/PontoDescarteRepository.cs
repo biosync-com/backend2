@@ -1,47 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BioSync.Domain.Entities;
+﻿using BioSync.Domain.Entities;
+using BioSync.Domain.Interfaces;
+using BioSync.Infra.Data;
 using BioSync.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Repositories
 {
-    public class PontoDescarteRepository
+    public class PontoDescarteRepository : IPontoDescarteRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
         public PontoDescarteRepository(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
-        public async Task<PontoDescarte> GetPontoDescarteByIdAsync(int id)
+
+        public async Task<PontoDescarte> Create(PontoDescarte pontoDescarte)
         {
-            return await _context.PontosDescarte.FindAsync(id);
+            _context.PontosDescarte.Add(pontoDescarte);
+            await _context.SaveChangesAsync();
+            return pontoDescarte;
         }
-        public async Task<List<PontoDescarte>> GetAllPontosDescarteAsync()
+
+        public async Task<PontoDescarte> Delete(PontoDescarte pontoDescarte)
+        {
+            _context.PontosDescarte.Remove(pontoDescarte);
+            await _context.SaveChangesAsync();
+            return pontoDescarte;
+        }
+
+        public async Task<IEnumerable<PontoDescarte>> GetAllAsync()
         {
             return await _context.PontosDescarte.ToListAsync();
         }
-        public async Task AddPontoDescarteAsync(PontoDescarte pontoDescarte)
+
+        public async Task<PontoDescarte> GetById(int id)
         {
-            await _context.PontosDescarte.AddAsync(pontoDescarte);
-            await _context.SaveChangesAsync();
+            return await _context.PontosDescarte.FindAsync(id);
         }
-        public async Task UpdatePontoDescarteAsync(PontoDescarte pontoDescarte)
+
+        public async Task<PontoDescarte> Update(PontoDescarte pontoDescarte)
         {
-            _context.PontosDescarte.Update(pontoDescarte);
+            _context.Entry(pontoDescarte).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }
-        public async Task DeletePontoDescarteAsync(int id)
-        {
-            var pontoDescarte = await _context.PontosDescarte.FindAsync(id);
-            if (pontoDescarte != null)
-            {
-                _context.PontosDescarte.Remove(pontoDescarte);
-                await _context.SaveChangesAsync();
-            }
+            return pontoDescarte;
         }
     }
 }

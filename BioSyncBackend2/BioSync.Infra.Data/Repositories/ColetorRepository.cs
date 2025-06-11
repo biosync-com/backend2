@@ -1,47 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BioSync.Domain.Entities;
+﻿using BioSync.Domain.Entities;
+using BioSync.Domain.Interfaces;
 using BioSync.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Repositories
 {
-    public class ColetorRepository
+    public class ColetorRepository : IColetorRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
         public ColetorRepository(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
-        public async Task<Coletor> GetColetorByIdAsync(int id)
+
+        public async Task<Coletor> Create(Coletor coletor)
         {
-            return await _context.Coletores.FindAsync(id);
+            _context.Coletores.Add(coletor);
+            await _context.SaveChangesAsync();
+            return coletor;
         }
-        public async Task<List<Coletor>> GetAllColetoresAsync()
+
+        public async Task<Coletor> Delete(Coletor coletor)
+        {
+            _context.Coletores.Remove(coletor);
+            await _context.SaveChangesAsync();
+            return coletor;
+        }
+
+        public async Task<IEnumerable<Coletor>> GetAllAsync()
         {
             return await _context.Coletores.ToListAsync();
         }
-        public async Task AddColetorAsync(Coletor coletor)
+
+        // Método ajustado para retornar um Coletor, como esperado.
+        public async Task<Coletor> GetByEmailAsync(string email)
         {
-            await _context.Coletores.AddAsync(coletor);
-            await _context.SaveChangesAsync();
+            return await _context.Coletores
+                                 .FirstOrDefaultAsync(c => c.Email == email);
         }
-        public async Task UpdateColetorAsync(Coletor coletor)
+
+        public async Task<Coletor> GetById(int id)
         {
-            _context.Coletores.Update(coletor);
-            await _context.SaveChangesAsync();
+            return await _context.Coletores.FindAsync(id);
         }
-        public async Task DeleteColetorAsync(int id)
+
+        public async Task<Coletor> Update(Coletor coletor)
         {
-            var coletor = await _context.Coletores.FindAsync(id);
-            if (coletor != null)
-            {
-                _context.Coletores.Remove(coletor);
-                await _context.SaveChangesAsync();
-            }
+            _context.Entry(coletor).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return coletor;
         }
     }
 }

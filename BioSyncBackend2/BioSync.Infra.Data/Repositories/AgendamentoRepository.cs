@@ -1,47 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BioSync.Domain.Entities;
+﻿using BioSync.Domain.Entities;
+using BioSync.Domain.Interfaces;
 using BioSync.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Repositories
 {
-    public class AgendamentoRepository
+    public class AgendamentoRepository : IAgendamentoRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
         public AgendamentoRepository(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
-        public async Task<Agendamento> GetAgendamentoByIdAsync(int id)
+
+        public async Task<Agendamento> Create(Agendamento agendamento)
         {
-            return await _context.Agendamentos.FindAsync(id);
+            _context.Agendamentos.Add(agendamento);
+            await _context.SaveChangesAsync();
+            return agendamento;
         }
-        public async Task<List<Agendamento>> GetAllAgendamentosAsync()
+
+        public async Task<Agendamento> Delete(Agendamento agendamento)
+        {
+            _context.Agendamentos.Remove(agendamento);
+            await _context.SaveChangesAsync();
+            return agendamento;
+        }
+
+        public async Task<IEnumerable<Agendamento>> GetAllAsync()
         {
             return await _context.Agendamentos.ToListAsync();
         }
-        public async Task AddAgendamentoAsync(Agendamento agendamento)
+
+        public async Task<Agendamento> GetById(int id)
         {
-            await _context.Agendamentos.AddAsync(agendamento);
-            await _context.SaveChangesAsync();
+            return await _context.Agendamentos.FindAsync(id);
         }
-        public async Task UpdateAgendamentoAsync(Agendamento agendamento)
+
+        public async Task<Agendamento> Update(Agendamento agendamento)
         {
-            _context.Agendamentos.Update(agendamento);
+            _context.Entry(agendamento).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }
-        public async Task DeleteAgendamentoAsync(int id)
-        {
-            var agendamento = await _context.Agendamentos.FindAsync(id);
-            if (agendamento != null)
-            {
-                _context.Agendamentos.Remove(agendamento);
-                await _context.SaveChangesAsync();
-            }
+            return agendamento;
         }
     }
 }

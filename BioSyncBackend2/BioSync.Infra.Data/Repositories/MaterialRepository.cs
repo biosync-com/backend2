@@ -1,47 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BioSync.Domain.Entities;
+﻿using BioSync.Domain.Entities;
+using BioSync.Domain.Interfaces;
 using BioSync.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Repositories
 {
-    public class MaterialRepository
+    public class MaterialRepository : IMaterialRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+
         public MaterialRepository(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
         }
-        public async Task<Material> GetMaterialByIdAsync(int id)
+
+        public async Task<Material> Create(Material material)
         {
-            return await _context.Materiais.FindAsync(id);
+            _context.Materiais.Add(material);
+            await _context.SaveChangesAsync();
+            return material;
         }
-        public async Task<List<Material>> GetAllMateriaisAsync()
+
+        public async Task<Material> Delete(Material material)
+        {
+            _context.Materiais.Remove(material);
+            await _context.SaveChangesAsync();
+            return material;
+        }
+
+        public async Task<IEnumerable<Material>> GetAllAsync()
         {
             return await _context.Materiais.ToListAsync();
         }
-        public async Task AddMaterialAsync(Material material)
+
+        public async Task<Material> GetById(int id)
         {
-            await _context.Materiais.AddAsync(material);
-            await _context.SaveChangesAsync();
+            return await _context.Materiais.FindAsync(id);
         }
-        public async Task UpdateMaterialAsync(Material material)
+
+        public async Task<Material> Update(Material material)
         {
-            _context.Materiais.Update(material);
+            _context.Entry(material).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }
-        public async Task DeleteMaterialAsync(int id)
-        {
-            var material = await _context.Materiais.FindAsync(id);
-            if (material != null)
-            {
-                _context.Materiais.Remove(material);
-                await _context.SaveChangesAsync();
-            }
+            return material;
         }
     }
 }

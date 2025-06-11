@@ -1,4 +1,5 @@
-﻿using BioSync.Application.Interfaces;
+﻿using System.Text;
+using BioSync.Application.Interfaces;
 using BioSync.Application.Mappings;
 using BioSync.Application.Services;
 using BioSync.Domain.Account;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace BioSync.Infra.IoC
 {
@@ -20,21 +20,40 @@ namespace BioSync.Infra.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // 1. Configuração do DbContext
+            // 1. REGISTRO DO DBCONTEXT
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                options.UseSqlServer(connectionString));
 
-            // 2. Configuração do ASP.NET Core Identity
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            //// 2. REGISTRO DO IDENTITY (ISSO CORRIGE O ERRO DO 'UserManager')
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
-            // 3. Configuração da Autenticação com JWT
-            services.AddAuthentication(opt =>
+            // 3. REGISTRO DOS REPOSITÓRIOS (CORRIGE OS ERROS DE 'Unable to resolve service')
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<IColetorRepository, ColetorRepository>();
+            services.AddScoped<IPontoDescarteRepository, PontoDescarteRepository>();
+            services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+
+            // 4. REGISTRO DOS SERVIÇOS DA CAMADA DE APLICAÇÃO
+            services.AddScoped<IAuthenticate, AuthenticateService>();
+            services.AddScoped<ITokenService, TokenService>(); // Serviço de autenticação
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IMaterialService, MaterialService>();
+            services.AddScoped<IColetorService, ColetorService>();
+            services.AddScoped<IPontoDescarteService, PontoDescarteService>();
+            services.AddScoped<IAgendamentoService, AgendamentoService>();
+
+            // 5. REGISTRO DO AUTOMAPPER
+            services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+            // 6. CONFIGURAÇÃO DA AUTENTICAÇÃO JWT
+            services.AddAuthentication(options =>
             {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {
@@ -46,29 +65,10 @@ namespace BioSync.Infra.IoC
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]))
                 };
             });
-
-            //// 4. Registro dos Repositórios
-            //services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            //services.AddScoped<IMaterialRepository, MaterialRepository>();
-            //services.AddScoped<IColetorRepository, ColetorRepository>();
-            //services.AddScoped<IPontoDescarteRepository, PontoDescarteRepository>();
-            //services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
-
-            // 5. Registro dos Serviços de Aplicação e Autenticação
-            services.AddScoped<IAuthenticate, AuthenticateService>();
-            services.AddScoped<ITokenService, TokenService>();
-            
-            services.AddScoped<IUsuarioService, UsuarioService>();
-            services.AddScoped<IMaterialService, MaterialService>();
-            services.AddScoped<IColetorService, ColetorService>();
-            services.AddScoped<IPontoDescarteService, PontoDescarteService>();
-            services.AddScoped<IAgendamentoService, AgendamentoService>();
-
-            // 6. Registro do AutoMapper
-            services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
             return services;
         }

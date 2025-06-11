@@ -3,7 +3,7 @@
 namespace BioSync.Infra.Data.Identity
 
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
         public string UserName { get; set; }
 

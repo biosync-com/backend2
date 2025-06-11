@@ -1,6 +1,6 @@
 ﻿using BioSync.Domain.Account;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Identity
@@ -9,12 +9,12 @@ namespace BioSync.Infra.Data.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ITokenService _tokenService; // Adicionado
+        private readonly ITokenService _tokenService;
 
-        // Construtor atualizado
-        public AuthenticateService(UserManager<ApplicationUser> userManager,
-                                     SignInManager<ApplicationUser> signInManager,
-                                     ITokenService tokenService)
+        public AuthenticateService(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -28,31 +28,45 @@ namespace BioSync.Infra.Data.Identity
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(email);
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Senha),
-                   
-                };
+                var roles = await _userManager.GetRolesAsync(user);
 
-                return _tokenService.GenerateToken(email, claims);
+                return _tokenService.GenerateToken(user.Id, user.Email, roles);
             }
 
-            return null; // Retorna null se a autenticação falhar
+            return null;
         }
 
-        // Os outros métodos (RegisterUserAsync, Logout) permanecem os mesmos
-        public async Task<bool> RegisterUser(string email, string password)
+        public async Task<IdentityResult> RegisterUser(string email, string password)
         {
-            var applicationUser = new ApplicationUser { UserName = email, Senha = email };
+            var applicationUser = new ApplicationUser
+            {
+                UserName = email,
+                Senha = password
+               
+            };
+
             var result = await _userManager.CreateAsync(applicationUser, password);
-            return result.Succeeded;
+
+            if (result.Succeeded)
+            {
+                // Por padrão, adiciona o novo usuário ao papel "User".
+                // Garanta que este papel exista no seu banco de dados.
+                await _userManager.AddToRoleAsync(applicationUser, "User");
+            }
+
+            return result;
         }
 
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
         }
+
+        Task<bool> IAuthenticate.RegisterUser(string email, string password)
+        {
+            this.RegisterUser(email, password);
+
+            return Task.FromResult(true);
+        }
     }
 }
-
