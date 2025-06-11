@@ -7,10 +7,9 @@ namespace BioSync.Application.Interfaces
 {
     public interface IUsuarioService
     {
-        public interface IUsuarioService
-        {
+       
             Task<UsuarioResponseDTO> GetByIdAsync(int id);
             Task<UsuarioResponseDTO> CreateAsync(UsuarioRequestDTO usuarioDto);
-        }
+       
     }
 }

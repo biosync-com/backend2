@@ -9,8 +9,7 @@ namespace BioSync.Application.DTOs.Response
     public class ColetorResponseDTO
     {
 
-        public class ColetorResponseDTOs
-        {
+      
 
             public int Id { get; set; }
             public string Nome { get; set; }
@@ -19,6 +18,6 @@ namespace BioSync.Application.DTOs.Response
             public string Material { get; set; }
             public DateTime DataCadastro { get; set; }
             public bool Ativo { get; set; }
-        }
+        
     }
 }

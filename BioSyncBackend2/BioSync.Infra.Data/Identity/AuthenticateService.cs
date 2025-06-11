@@ -1,5 +1,7 @@
 ﻿using BioSync.Domain.Account;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BioSync.Infra.Data.Identity
 {
@@ -7,49 +9,45 @@ namespace BioSync.Infra.Data.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ITokenService _tokenService; // Adicionado
 
-        public AuthenticateService(SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+        // Construtor atualizado
+        public AuthenticateService(UserManager<ApplicationUser> userManager,
+                                     SignInManager<ApplicationUser> signInManager,
+                                     ITokenService tokenService)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
-        public async Task<bool> Authenticate(string email, string password)
+        public async Task<string> AuthenticateAsync(string email, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(email,
-                password, false, lockoutOnFailure: false);
-
-            return result.Succeeded;
-        }
-        public async Task<bool> RegisterUser(string email, string password)
-        {
-            var applicationUser = new ApplicationUser
-            {
-                UserName = email,
-                Senha = email,
-            };
-
-            var result = await _userManager.CreateAsync(applicationUser, password);
+            var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(applicationUser, isPersistent: false);
+                var user = await _userManager.FindByEmailAsync(email);
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    // Você pode adicionar outras claims aqui, como roles ou IDs
+                };
+
+                return _tokenService.GenerateToken(email, claims);
             }
-            return result.Succeeded;
+
+            return null; // Retorna null se a autenticação falhar
         }
 
-        //teste de atribuição de claims a um usuário
-        //public async Task AplicarRoleAdmin (string email)
-        //{
-        //    var usuario = await _userManager.FindByEmailAsync(email);
-        //    await _userManager.AddClaimAsync(usuario, new Claim("Admin", "true"));
-        //}
-        //public async Task RemoverRoleAdmin(string email)
-        //{
-        //    var usuario = await _userManager.FindByEmailAsync(email);
-        //    await _userManager.RemoveClaimAsync(usuario, new Claim("Admin", "true"));
-        //}
+        // Os outros métodos (RegisterUserAsync, Logout) permanecem os mesmos
+        public async Task<bool> RegisterUserAsync(string email, string password)
+        {
+            var applicationUser = new ApplicationUser { UserName = email, Email = email };
+            var result = await _userManager.CreateAsync(applicationUser, password);
+            return result.Succeeded;
+        }
 
         public async Task Logout()
         {

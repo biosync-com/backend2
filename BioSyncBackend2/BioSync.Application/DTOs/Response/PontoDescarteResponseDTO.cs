@@ -8,19 +8,16 @@ namespace BioSync.Application.DTOs.Response
 {
     public class PontoDescarteResponseDTO
     {
-        public class PontoDescarteResponseDTOs
-        {
+        
             public int Id { get; set; }
             public string Nome { get; set; }
             public string CNPJ { get; set; }
             public string Email { get; set; }
             public string Endereco { get; set; }
             public string Material { get; set; }
-        }
+        
 
-    public class PontoDescarteUpdateDTO
-        {
-        }
+  
     }
 }
 
