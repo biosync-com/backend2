@@ -39,10 +39,10 @@ namespace BioSync.Application.Validators
             {
                 throw new ArgumentException("A hora do agendamento não pode ser inválida.");
             }
-            if (agendamento.Hora < TimeOnly.FromDateTime(DateTime.Now.TimeOfDay)) // Verifica se a hora é inválida ou no passado
-            {
-                throw new ArgumentException("A hora do agendamento não pode ser inválida.");
-            }
+            //if (agendamento.Hora < TimeOnly.FromDateTime(DateTime.Now.TimeOfDay)) // Verifica se a hora é inválida ou no passado
+            //{
+            //    throw new ArgumentException("A hora do agendamento não pode ser inválida.");
+            //}
             if (agendamento.Coletor == null)
             {
                 throw new ArgumentException("O coletor do agendamento não pode ser nulo.");

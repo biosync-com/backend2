@@ -17,12 +17,11 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] LoginDTO loginDto)
     {
-        var result = await _authenticationService.AuthenticateAsync(loginDto.Email, loginDto.Password);
+        var result = await _authenticationService.Authenticate(loginDto.Email, loginDto.Password);
 
-        if (result)
+        if (!string.IsNullOrEmpty(result))
         {
-            // Aqui você geraria e retornaria um token JWT
-            // Por enquanto, vamos retornar um Ok simples
+            
             return Ok(new { message = "Login bem-sucedido" });
         }
 

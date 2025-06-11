@@ -8,8 +8,8 @@ namespace BioSync.Domain.Account
     public interface IAuthenticate
     {
         // Alterado de Task<bool> para Task<string>
-        Task<string> AuthenticateAsync(string email, string password);
-        Task<bool> RegisterUserAsync(string email, string password);
+        Task<string> Authenticate(string email, string password);
+        Task<bool> RegisterUser(string email, string password);
         Task Logout();
     }
 }

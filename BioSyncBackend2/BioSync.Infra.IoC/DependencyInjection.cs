@@ -26,9 +26,9 @@ namespace BioSync.Infra.IoC
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             // 2. Configuração do ASP.NET Core Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             // 3. Configuração da Autenticação com JWT
             services.AddAuthentication(opt =>
@@ -50,12 +50,12 @@ namespace BioSync.Infra.IoC
                 };
             });
 
-            // 4. Registro dos Repositórios
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IMaterialRepository, MaterialRepository>();
-            services.AddScoped<IColetorRepository, ColetorRepository>();
-            services.AddScoped<IPontoDescarteRepository, PontoDescarteRepository>();
-            services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+            //// 4. Registro dos Repositórios
+            //services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            //services.AddScoped<IMaterialRepository, MaterialRepository>();
+            //services.AddScoped<IColetorRepository, ColetorRepository>();
+            //services.AddScoped<IPontoDescarteRepository, PontoDescarteRepository>();
+            //services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 
             // 5. Registro dos Serviços de Aplicação e Autenticação
             services.AddScoped<IAuthenticate, AuthenticateService>();

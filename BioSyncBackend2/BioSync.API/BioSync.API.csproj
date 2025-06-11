@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BioSync.Application\BioSync.Application.csproj" />
-    <ProjectReference Include="..\BioSync.Domain\BioSync.Domain.csproj" />
     <ProjectReference Include="..\BioSync.Infra.IoC\BioSync.Infra.IoC.csproj" />
   </ItemGroup>
 

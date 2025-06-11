@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace BioSync.Application.DTOs.Querries
 {
@@ -14,13 +16,5 @@ namespace BioSync.Application.DTOs.Querries
         public DateTime DataCadastro { get; set; }
         public bool Ativo { get; set; }
     }
-    public MaterialQuerryDTO()
-        {
-            Id = 0;
-            Nome = string.Empty;
-            Descricao = string.Empty;
-            DataCadastro = DateTime.Now;
-            Ativo = true;
-        }
-    }
+    
 }

@@ -21,7 +21,7 @@ namespace BioSync.Infra.Data.Identity
             _tokenService = tokenService;
         }
 
-        public async Task<string> AuthenticateAsync(string email, string password)
+        public async Task<string> Authenticate(string email, string password)
         {
             var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
 
@@ -31,8 +31,8 @@ namespace BioSync.Infra.Data.Identity
                 var claims = new[]
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    // Você pode adicionar outras claims aqui, como roles ou IDs
+                    new Claim(ClaimTypes.Email, user.Senha),
+                   
                 };
 
                 return _tokenService.GenerateToken(email, claims);
@@ -42,9 +42,9 @@ namespace BioSync.Infra.Data.Identity
         }
 
         // Os outros métodos (RegisterUserAsync, Logout) permanecem os mesmos
-        public async Task<bool> RegisterUserAsync(string email, string password)
+        public async Task<bool> RegisterUser(string email, string password)
         {
-            var applicationUser = new ApplicationUser { UserName = email, Email = email };
+            var applicationUser = new ApplicationUser { UserName = email, Senha = email };
             var result = await _userManager.CreateAsync(applicationUser, password);
             return result.Succeeded;
         }

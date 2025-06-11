@@ -7,6 +7,7 @@ using BioSync.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using BioSync.Domain.Interfaces;
 
 namespace BioSync.Infra.Data.Repositories
 {

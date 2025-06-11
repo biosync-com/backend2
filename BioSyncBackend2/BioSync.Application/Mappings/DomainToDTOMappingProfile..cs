@@ -11,7 +11,7 @@ namespace BioSync.Application.Mappings
         public DomainToDTOMappingProfile() { }
         public static void Configure(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Agendamento, AgendamentoResponseDTO.AgendamentoResponseDTOs>()
+            cfg.CreateMap<Agendamento, AgendamentoResponseDTO>()
                 .ForMember(dest => dest.NomeColetor, opt => opt.MapFrom(src => src.Coletor.Nome))
                 .ForMember(dest => dest.NomeMaterial, opt => opt.MapFrom(src => src.Material.Nome))
                 .ForMember(dest => dest.NomeUsuario, opt => opt.MapFrom(src => src.Usuario.Nome));
