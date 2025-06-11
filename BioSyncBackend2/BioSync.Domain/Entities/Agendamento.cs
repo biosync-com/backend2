@@ -15,7 +15,5 @@ namespace BioSync.Domain.Entities
         public Material Material { get; set; }
 
         public Usuario Usuario { get; set; }
-
-
     }
 }
