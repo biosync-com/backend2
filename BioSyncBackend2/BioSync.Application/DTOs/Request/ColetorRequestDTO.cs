@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Application.DTOs.Request
 {
-    internal class ColetorRequestDTO
+    public class ColetorRequestDTO
     {
 
         [Required(ErrorMessage = "O Nome é obrigatório.")]

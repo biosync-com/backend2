@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Application.DTOs.Request
 {
-    internal class AgendamentoRequestDTO
+    public class AgendamentoRequestDTO
     {
 
         [Required (ErrorMessage ="A data é obrigatória")]

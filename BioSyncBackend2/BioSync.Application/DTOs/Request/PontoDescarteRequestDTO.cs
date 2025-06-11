@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Application.DTOs.Request
 {
-    internal class PontoDescarteRequestDTO
+    public class PontoDescarteRequestDTO
     {
         [Required(ErrorMessage = "O Nome é obrigatório.")]
         [MaxLength(100, ErrorMessage = "O Nome deve ter no máximo 100 caracteres.")]
@@ -22,7 +22,6 @@ namespace BioSync.Application.DTOs.Request
         [MaxLength(18, ErrorMessage = "O CNPJ deve ter no máximo 18 caracteres.")]
         [DataType(DataType.Text, ErrorMessage = "Informe um CNPJ válido.")]
         [Display(Name = "CNPJ do Ponto de Descarte")]
-        [RegularExpression(@"^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$", ErrorMessage = "Informe um CNPJ válido.")]
         public string CNPJ { get; set; }
 
         [Required(ErrorMessage = "O Email é obrigatório.")]

@@ -1,16 +1,18 @@
-﻿using BioSync.Application.DTOs;
+﻿using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BioSync.Application.Interfaces
 {
     public interface IMaterialService
     {
-        string Name { get; }
-        string Description { get; }
-        DateTime RegistrationDate { get; }
-        bool IsActive { get; }
+       
+            Task<IEnumerable<MaterialResponseDTO>> GetAllAsync();
+            Task<MaterialResponseDTO> GetByIdAsync(int id);
+            Task<MaterialResponseDTO> CreateAsync(MaterialRequestDTO materialDto);
+            Task<bool> UpdateAsync(int id, MaterialRequestDTO materialDto);
+            Task<bool> DeleteAsync(int id);
         
-        void Ativar();
-        void Desativar();
-        void AtualizarInformacoes(string nome, string descricao);
     }
 }

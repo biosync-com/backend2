@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Application.DTOs.Response
 {
-    internal class MaterialResponseDTO
+    public class MaterialResponseDTO
     {
         public List<MaterialResponseDTO> Materiais { get; set;  }
     }

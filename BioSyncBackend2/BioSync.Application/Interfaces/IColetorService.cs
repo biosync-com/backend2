@@ -1,20 +1,16 @@
-﻿using BioSync.Application.DTOs;
+﻿using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BioSync.Application.Interfaces
 {
-    public interface IColetor
+    public interface IColetorService
     {
-        string Nome { get; }
-        string CPF { get; }
-        string Email { get; }
-        string Material { get; }
-
-        void Activate();
-        void Deactivate();
-        void UpdateInformation(ColetorUpdateDTO updateDto);
-
-        void ChangePassword(string newPassword);
-        bool ValidatePassword(string password);
-
+        Task<IEnumerable<ColetorResponseDTO>> GetAllAsync();
+        Task<ColetorResponseDTO> GetByIdAsync(int id);
+        Task<ColetorResponseDTO> CreateAsync(ColetorRequestDTO coletorDto);
+        Task<bool> UpdateAsync(int id, ColetorRequestDTO coletorDto);
+        Task<bool> DeleteAsync(int id);
     }
 }

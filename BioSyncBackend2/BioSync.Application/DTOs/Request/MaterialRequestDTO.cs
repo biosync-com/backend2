@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BioSync.Application.DTOs.Request
 {
-    internal class MaterialRequestDTO
+    public class MaterialRequestDTO
     {
         [Required(ErrorMessage = "O Nome é obrigatório.")]
         [MaxLength(100, ErrorMessage = "O Nome deve ter no máximo 100 caracteres.")]

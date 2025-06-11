@@ -1,19 +1,16 @@
-﻿using BioSync.Application.DTOs;
+﻿using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BioSync.Application.Interfaces
 {
     public interface IPontoDescarteService
     {
-        string Name { get; }
-        string CNPJ { get; }
-        string Endereco { get; }
-        bool IsActive { get; }
-        void Activate();
-        void Deactivate();
-        void UpdateInformation(DTOs.Response.PontoDescarteResponseDTO.PontoDescarteUpdateDTO updateDto);
-        void ChangeEndereco(string newEndereco);
-        bool ValidateEndereco(string Endereco);
-        void AddMaterial(string materialName);
-        void RemoveMaterial(string materialName);
+        Task<IEnumerable<PontoDescarteResponseDTO>> GetAllAsync();
+        Task<PontoDescarteResponseDTO> GetByIdAsync(int id);
+        Task<PontoDescarteResponseDTO> CreateAsync(PontoDescarteRequestDTO pontoDescarteDto);
+        Task<bool> UpdateAsync(int id, PontoDescarteRequestDTO pontoDescarteDto);
+        Task<bool> DeleteAsync(int id);
     }
 }

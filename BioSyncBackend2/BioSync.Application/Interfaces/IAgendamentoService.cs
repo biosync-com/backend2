@@ -1,23 +1,16 @@
-﻿using BioSync.Application.DTOs.Response;
+﻿using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BioSync.Application.Interfaces
 {
-    public interface IAgendamento
+    public interface IAgendamentoService
     {
-        int Id { get; }
-        string ColetorNome { get; }
-        string PontoDescarteNome { get; }
-        DateTime DataHora { get; }
-        string Material { get; }
-        bool IsActive { get; }
-        void Activate();
-        void Deactivate();
-        void UpdateInformation(AgendamentoUpdateDTO updateDto);
-        void ChangeDataHora(DateTime newDataHora);
-        bool ValidateDataHora(DateTime dataHora);
-    }
-
-    public class AgendamentoUpdateDTO
-    {
+        Task<IEnumerable<AgendamentoResponseDTO>> GetAllAsync();
+        Task<AgendamentoResponseDTO> GetByIdAsync(int id);
+        Task<AgendamentoResponseDTO> CreateAsync(AgendamentoRequestDTO agendamentoDto);
+        Task<bool> UpdateAsync(int id, AgendamentoRequestDTO agendamentoDto);
+        Task<bool> DeleteAsync(int id);
     }
 }
