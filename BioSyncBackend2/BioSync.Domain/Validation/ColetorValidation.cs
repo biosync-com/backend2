@@ -18,7 +18,7 @@ namespace BioSync.Domain.Validation
             {
                 throw new ArgumentException(nameof(coletor), "Coletor não pode ficar com e-mail em branco ou vazio");
             }
-            if (!coletor.Email.Contains("*") || !coletor.Email.Contains("#") || coletor.Email.Contains("!") || coletor.Email.Contains("@")
+            if (!coletor.Email.Contains("*") || !coletor.Email.Contains("#") || coletor.Email.Contains("!") || coletor.Email.Contains("@"))
             {
                 throw new ArgumentException("Email do usuário deve ser válido.", nameof(coletor));
             }

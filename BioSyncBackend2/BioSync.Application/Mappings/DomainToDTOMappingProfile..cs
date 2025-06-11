@@ -6,7 +6,7 @@ using BioSync.Application.DTOs.Response;
 
 namespace BioSync.Application.Mappings
 {
-    internal class DomainToDTOMappingProfile
+    public class DomainToDTOMappingProfile
     {
         public DomainToDTOMappingProfile() { }
         public static void Configure(IMapperConfigurationExpression cfg)
