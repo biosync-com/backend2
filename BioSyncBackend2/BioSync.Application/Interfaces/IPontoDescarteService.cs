@@ -2,7 +2,7 @@
 
 namespace BioSync.Application.Interfaces
 {
-    public interface IPontoDescarte
+    public interface IPontoDescarteService
     {
         string Name { get; }
         string CNPJ { get; }

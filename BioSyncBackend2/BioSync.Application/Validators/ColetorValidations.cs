@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BioSync.Application.Interfaces;
 using BioSync.Domain.Entities;
+using FluentAssertions;
+using BioSync.Domain.Validation;
+using FluentValidation;
 
 namespace BioSync.Application.Validators
 {

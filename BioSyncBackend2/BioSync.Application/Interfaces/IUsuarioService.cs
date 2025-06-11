@@ -3,7 +3,7 @@ using BioSync.Application.DTOs;
 
 namespace BioSync.Application.Interfaces
 {
-    public interface IUsuario
+    public interface IUsuarioService
     {
         int Id { get; set; }
         string Nome { get; set; }

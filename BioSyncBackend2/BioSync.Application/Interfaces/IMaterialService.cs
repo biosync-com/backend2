@@ -2,7 +2,7 @@
 
 namespace BioSync.Application.Interfaces
 {
-    public interface IMaterial
+    public interface IMaterialService
     {
         string Name { get; }
         string Description { get; }
