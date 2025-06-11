@@ -1,54 +1,46 @@
 ﻿using AutoMapper;
+using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
 using BioSync.Application.Interfaces;
+using BioSync.Domain.Account;
 using BioSync.Domain.Entities;
-using BioSync.Application.DTOs;
 using BioSync.Domain.Interfaces;
 
 namespace BioSync.Application.Services
-{
-    public class UsuarioServices : IUsuarioService, IUsuarioServices
-    {
-        private readonly IMapper _mapper;
-        private readonly IUsuarioRepository _usuarioRepository;
-
-
-        public UsuarioServices(IMapper mapper, IUsuarioRepository usuarioRepository)
+{    
+        public class UsuarioService : IUsuarioService
         {
-            _mapper = mapper;
-            _usuarioRepository = usuarioRepository;
-        }
+            private readonly IUsuarioRepository _usuarioRepository;
+            private readonly IAuthenticate _authentication;
+            private readonly IMapper _mapper;
 
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Nome { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string CPF { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Email { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public DateTime DataCadastro { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Ativo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public UsuarioService(IUsuarioRepository usuarioRepository, IAuthenticate authentication, IMapper mapper)
+            {
+                _usuarioRepository = usuarioRepository;
+                _authentication = authentication;
+                _mapper = mapper;
+            }
 
-        public void Ativar(bool Ativo)
-        {
-            Ativo = true;
-            // Aqui você pode adicionar lógica para ativar o usuário no repositório
-        }
+            public async Task<UsuarioResponseDTO> CreateAsync(UsuarioRequestDTO usuarioDto)
+            {
+                var usuario = _mapper.Map<Usuario>(usuarioDto);
 
-        public void Ativar()
-        {
-            throw new NotImplementedException();
-        }
+                // 1. Criar o usuário no sistema de autenticação (Identity)
+                var result = await _authentication.RegisterUser(usuario.Email, usuarioDto.Senha);
+                if (!result)
+                {
+                    throw new System.Exception("Não foi possível registrar o usuário de autenticação.");
+                }
 
-        public void AtualizarInformacoes(string nome, string email)
-        {
-            throw new NotImplementedException();
-        }
+                // 2. Criar o usuário na tabela de domínio
+                var createdUsuario = await _usuarioRepository.Create(usuario);
+                return _mapper.Map<UsuarioResponseDTO>(createdUsuario);
+            }
 
-        public void Desativar(bool Ativo)
-        {
-            Ativo = false;
-            // Aqui você pode adicionar lógica para desativar o usuário no repositório
-        }
-
-        public void Desativar()
-        {
-            throw new NotImplementedException();
+            public async Task<UsuarioResponseDTO> GetByIdAsync(int id)
+            {
+                var usuario = await _usuarioRepository.GetById(id);
+                return _mapper.Map<UsuarioResponseDTO>(usuario);
+            }
         }
     }

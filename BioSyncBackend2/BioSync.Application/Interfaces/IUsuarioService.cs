@@ -1,19 +1,16 @@
 ﻿
 using BioSync.Application.DTOs;
+using BioSync.Application.DTOs.Request;
+using BioSync.Application.DTOs.Response;
 
 namespace BioSync.Application.Interfaces
 {
     public interface IUsuarioService
     {
-        int Id { get; set; }
-        string Nome { get; set; }
-        string CPF { get; set; }
-        string Email { get; set; }
-        DateTime DataCadastro { get; set; }
-        bool Ativo { get; set; }
-      
-        void Ativar();
-        void Desativar();
-        void AtualizarInformacoes(string nome, string email);
+        public interface IUsuarioService
+        {
+            Task<UsuarioResponseDTO> GetByIdAsync(int id);
+            Task<UsuarioResponseDTO> CreateAsync(UsuarioRequestDTO usuarioDto);
+        }
     }
 }
