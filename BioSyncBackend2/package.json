@@ -1,0 +1,23 @@
+{
+  "name": "biosyncbackend2",
+  "version": "1.0.0",
+  "description": "Backend API com Swagger UI",
+  "main": "server.js",
+  "scripts": {
+    "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "swagger-ui-express": "^4.6.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
