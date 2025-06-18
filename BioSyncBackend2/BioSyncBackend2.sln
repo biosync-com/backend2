@@ -3,28 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.API", "BioSync.API\BioSync.API.csproj", "{7BBD3EE0-E42C-4211-B5B3-88952F360F87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.API", "BioSync.API\BioSync.API.csproj", "{7BBD3EE0-E42C-4211-B5B3-88952F360F87}"
 	ProjectSection(ProjectDependencies) = postProject
 		{60EF2491-31ED-4564-85DF-5A3393D157C4} = {60EF2491-31ED-4564-85DF-5A3393D157C4}
 		{E1597764-7BDD-4BB9-9342-68BAE78ED7A7} = {E1597764-7BDD-4BB9-9342-68BAE78ED7A7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.Application", "BioSync.Application\BioSync.Application.csproj", "{E1597764-7BDD-4BB9-9342-68BAE78ED7A7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{60EF2491-31ED-4564-85DF-5A3393D157C4} = {60EF2491-31ED-4564-85DF-5A3393D157C4}
-		{F819CD11-614A-433F-A3E7-59FEA627E726} = {F819CD11-614A-433F-A3E7-59FEA627E726}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.Domain", "BioSync.Domain\BioSync.Domain.csproj", "{F819CD11-614A-433F-A3E7-59FEA627E726}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.Domain.Test", "BioSync.Domain.Test\BioSync.Domain.Test.csproj", "{AFBA0F6B-ED3C-4C55-8CED-58CF4C5B6F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.Application", "BioSync.Application\BioSync.Application.csproj", "{E1597764-7BDD-4BB9-9342-68BAE78ED7A7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F819CD11-614A-433F-A3E7-59FEA627E726} = {F819CD11-614A-433F-A3E7-59FEA627E726}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.Infra.Data", "BioSync.Infra.Data\BioSync.Infra.Data.csproj", "{B92AC60F-3A15-49F5-8CD8-02EDF66031F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.Domain", "BioSync.Domain\BioSync.Domain.csproj", "{F819CD11-614A-433F-A3E7-59FEA627E726}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioSync.Infra.IoC", "BioSync.Infra.IoC\BioSync.Infra.IoC.csproj", "{60EF2491-31ED-4564-85DF-5A3393D157C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.Domain.Test", "BioSync.Domain.Test\BioSync.Domain.Test.csproj", "{AFBA0F6B-ED3C-4C55-8CED-58CF4C5B6F02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F819CD11-614A-433F-A3E7-59FEA627E726} = {F819CD11-614A-433F-A3E7-59FEA627E726}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.Infra.Data", "BioSync.Infra.Data\BioSync.Infra.Data.csproj", "{B92AC60F-3A15-49F5-8CD8-02EDF66031F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BioSync.Infra.IoC", "BioSync.Infra.IoC\BioSync.Infra.IoC.csproj", "{60EF2491-31ED-4564-85DF-5A3393D157C4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B92AC60F-3A15-49F5-8CD8-02EDF66031F1} = {B92AC60F-3A15-49F5-8CD8-02EDF66031F1}
 	EndProjectSection
