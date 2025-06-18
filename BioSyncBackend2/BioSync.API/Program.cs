@@ -11,6 +11,17 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", builder =>
+    {
+        // Permite requisições de qualquer origem, com qualquer cabeçalho e método
+        builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 // Chama nosso método de extensão para configurar toda a infraestrutura (DbContext, Identity, Repositories, Services, JWT, etc.)
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -52,6 +63,8 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
+
+app.UseCors("ReactPolicy");
 
 // 2. Configuração do Pipeline de Requisições HTTP
 
